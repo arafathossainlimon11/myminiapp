@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>আর্ন মাস্টার মিনি অ্যাপ</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
+    <script src='//libtl.com/sdk.js' data-zone='11191809' data-sdk='show_11191809'></script>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        h1 {
+            color: #4CAF50;
+            font-size: 24px;
+        }
+        .balance-box {
+            background: #3d3d3d;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 18px;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 8px;
+            width: 100%;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        .btn-auto {
+            background-color: #008CBA;
+        }
+        .btn-stop {
+            background-color: #f44336;
+        }
+        .withdraw-box {
+            margin-top: 30px;
+            border-top: 1px solid #444;
+            padding-top: 20px;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background: #333;
+            color: white;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>৳ আর্ন মাস্টার ৳</h1>
+    <p>ভিডিও দেখে সহজে ইনকাম করুন</p>
+
+    <div class="balance-box">
+        আমার বর্তমান পয়েন্ট: <span id="points">0.0</span>
+    </div>
+
+    <button class="btn" onclick="showManualAd()">বিজ্ঞাপন দেখুন (Watch Ad)</button>
+    <button class="btn btn-auto" onclick="startAutoAd()">অটো বিজ্ঞাপন (Auto Ad)</button>
+    <button class="btn btn-stop" onclick="stopAutoAd()">অটো বিজ্ঞাপন বন্ধ করুন</button>
+
+    <div class="withdraw-box">
+        <h3>টাকা উত্তোলন (Withdraw)</h3>
+        <input type="number" id="withdraw-points" placeholder="পয়েন্টের পরিমাণ দিন">
+        <select id="payment-method">
+            <option value="bkash">বিকাশ (Bkash)</option>
+            <option value="nagad">নগদ (Nagad)</option>
+        </select>
+        <input type="text" id="phone-number" placeholder="মোবাইল নাম্বার দিন">
+        <button class="btn" onclick="handleWithdraw()">সাবমিট করুন</button>
+    </div>
+</div>
+
+<script>
+    // টেলিগ্রাম অ্যাপ ইনিশিয়ালাইজ করা
+    const tg = window.Telegram.WebApp;
+    tg.expand(); // অ্যাপটি পুরো স্ক্রিনে ওপেন হবে
+
+    let currentPoints = 0.0;
+    let autoAdInterval = null;
+
+    // ১. ম্যানুয়াল অ্যাড দেখানোর ফাংশন (তোমার জোন আইডি দিয়ে রেডি করা)
+    function showManualAd() {
+        if (typeof show_11191809 !== 'undefined') { 
+            show_11191809().then(() => {
+                // অ্যাড সফলভাবে দেখা শেষ হলে পয়েন্ট বাড়বে
+                currentPoints += 0.1;
+                document.getElementById('points').innerText = currentPoints.toFixed(1);
+                alert("বিজ্ঞাপনটি দেখার জন্য ধন্যবাদ! ০.১ পয়েন্ট যোগ হয়েছে।");
+            }).catch((err) => {
+                alert("বিজ্ঞাপন লোড হতে সমস্যা হচ্ছে। আবার চেষ্টা করুন।");
+            });
+        } else {
+            // টেস্ট মোড (যদি লাইভ করার আগে চেক করতে চাও)
+            currentPoints += 0.1;
+            document.getElementById('points').innerText = currentPoints.toFixed(1);
+            alert("বিজ্ঞাপন লোড হচ্ছে... (টেস্ট মোড: পয়েন্ট যোগ হয়েছে)");
+        }
+    }
+
+    // ২. অটো অ্যাড চালু করার ফাংশন
+    function startAutoAd() {
+        alert("অটো বিজ্ঞাপন चालू হয়েছে। প্রতি ১৫ সেকেন্ড পর পর বিজ্ঞাপন আসবে।");
+        autoAdInterval = setInterval(() => {
+            showManualAd();
+        }, 15000); 
+    }
+
+    // ৩. অটো অ্যাড বন্ধ করার ফাংশন
+    function stopAutoAd() {
+        if (autoAdInterval) {
+            clearInterval(autoAdInterval);
+            alert("অটো বিজ্ঞাপন বন্ধ করা হয়েছে।");
+        }
+    }
+
+    // ৪. টাকা তোলার বাটন ফাংশন
+    function handleWithdraw() {
+        const pointsToWithdraw = parseFloat(document.getElementById('withdraw-points').value);
+        const method = document.getElementById('payment-method').value;
+        const phone = document.getElementById('phone-number').value;
+
+        if (!pointsToWithdraw || !phone) {
+            alert("দয়া করে সবগুলো ঘর সঠিকভাবে পূরণ করুন।");
+            return;
+        }
+
+        // সর্বনিম্ন ৫ পয়েন্ট লাগবে উইথড্র করতে
+        if (pointsToWithdraw < 5.0) {
+            alert("দুঃখিত! সর্বনিম্ন ৫ পয়েন্ট না হলে টাকা তোলা যাবে না।");
+            return;
+        }
+
+        if (currentPoints < pointsToWithdraw) {
+            alert("আপনার অ্যাকাউন্টে পর্যাপ্ত পয়েন্ট নেই।");
+            return;
+        }
+
+        // সফল রিকোয়েস্ট মেসেজ
+        alert(`আপনার রিকোয়েস্ট সফল হয়েছে!\nপরিমাণ: ${pointsToWithdraw} পয়েন্ট\nমাধ্যম: ${method.toUpperCase()}\nনাম্বার: ${phone}\n২৪ ঘণ্টার মধ্যে পেমেন্ট পেয়ে যাবেন।`);
+        
+        currentPoints -= pointsToWithdraw;
+        document.getElementById('points').innerText = currentPoints.toFixed(1);
+    }
+</script>
+
+</body>
+</html>
