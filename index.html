@@ -1,169 +1,179 @@
-        <!DOCTYPE html>
-<html lang="bn">
+       <!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>টাকা ইনকাম মাস্টার</title>
-    
-    <script src='//libtl.com/sdk.js' data-zone='11200427' data-sdk='show_11200427'></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MovieFlix</title>
 
-    <style>
-        body {
-            background-color: #1a1e24;
-            color: #ffffff;
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-            padding: 20px;
-            margin: 0;
-        }
-        .container {
-            max-width: 400px;
-            margin: 0 auto;
-            background: #252b35;
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-        h1 { color: #4caf50; font-size: 24px; margin-bottom: 5px; }
-        .subtitle { color: #cccccc; font-size: 16px; margin-bottom: 25px; }
-        .balance-box {
-            background: #323a48;
-            padding: 15px;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 25px;
-        }
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 14px;
-            margin: 12px 0;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .btn-green { background-color: #4caf50; color: white; }
-        .btn-blue { background-color: #008cba; color: white; }
-        .btn-red { background-color: #f44336; color: white; }
-        input, select {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border: 1px solid #444;
-            background: #1a1e24;
-            color: white;
-            box-sizing: border-box;
-        }
-        .withdraw-box { margin-top: 30px; border-top: 1px solid #444; padding-top: 20px; }
-    </style>
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#111;
+    color:white;
+}
+
+header{
+    background:#000;
+    padding:15px 50px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    color:#e50914;
+    font-size:28px;
+    font-weight:bold;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin-left:20px;
+}
+
+.hero{
+    height:80vh;
+    background:url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1200') center/cover;
+    display:flex;
+    align-items:center;
+    padding:50px;
+}
+
+.hero-content{
+    max-width:500px;
+}
+
+.hero h1{
+    font-size:50px;
+    margin-bottom:15px;
+}
+
+.hero p{
+    margin-bottom:20px;
+    line-height:1.6;
+}
+
+.btn{
+    background:#e50914;
+    color:white;
+    padding:12px 25px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.section{
+    padding:40px 50px;
+}
+
+.section h2{
+    margin-bottom:20px;
+}
+
+.movies{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:20px;
+}
+
+.movie-card{
+    background:#222;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.movie-card img{
+    width:100%;
+    height:280px;
+    object-fit:cover;
+}
+
+.movie-info{
+    padding:15px;
+}
+
+.movie-info h3{
+    margin-bottom:10px;
+}
+
+footer{
+    text-align:center;
+    padding:20px;
+    background:#000;
+    margin-top:30px;
+}
+</style>
 </head>
 <body>
 
-<div class="container">
-    <h1>৳ আর্ন মাস্টার ৳</h1>
-    <div class="subtitle">ভিডিও দেখে সহজে ইনকাম করুন</div>
+<header>
+    <div class="logo">MovieFlix</div>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Movies</a>
+        <a href="#">Series</a>
+        <a href="#">Contact</a>
+    </nav>
+</header>
 
-    <div class="balance-box">
-        আমার বর্তমান পয়েন্ট: <span id="balance">0.0</span>
+<section class="hero">
+    <div class="hero-content">
+        <h1>Watch Your Favorite Movies</h1>
+        <p>Enjoy the latest movies and series in HD quality anytime, anywhere.</p>
+        <button class="btn">Watch Now</button>
     </div>
+</section>
 
-    <button class="btn btn-green" onclick="watchAd()">বিজ্ঞাপন দেখুন (11200427)</button>https://omg10.com/4/11200499
-    
-        <h3>টাকা উত্তোলন (Withdraw)</h3>
-        <input type="number" id="withdrawPoints" placeholder="পয়েন্টের পরিমাণ দিন">
-        <select id="paymentMethod">
-            <option value="Bkash">বিকাশ (Bkash)</option>
-            <option value="Nagad">নগদ (Nagad)</option>
-        </select>
-        <input type="text" id="walletNumber" placeholder="আপনার নম্বরটি দিন">
-        <button class="btn btn-blue" style="background-color: #ff9800;" onclick="submitWithdraw()">উইথড্র রিকোয়েস্ট পাঠান</button>
+<section class="section">
+    <h2>Trending Movies</h2>
+
+    <div class="movies">
+
+        <div class="movie-card">
+            <img src="https://picsum.photos/300/400?1">
+            <div class="movie-info">
+                <h3>Action Hero</h3>
+                <p>Action | Adventure</p>
+            </div>
+        </div>
+
+        <div class="movie-card">
+            <img src="https://picsum.photos/300/400?2">
+            <div class="movie-info">
+                <h3>Dark Night</h3>
+                <p>Thriller | Mystery</p>
+            </div>
+        </div>
+
+        <div class="movie-card">
+            <img src="https://picsum.photos/300/400?3">
+            <div class="movie-info">
+                <h3>Love Story</h3>
+                <p>Romance | Drama</p>
+            </div>
+        </div>
+
+        <div class="movie-card">
+            <img src="https://picsum.photos/300/400?4">
+            <div class="movie-info">
+                <h3>Future World</h3>
+                <p>Sci-Fi | Adventure</p>
+            </div>
+        </div>
+
     </div>
-</div>
+</section>
 
-<script>
-    // বট কনফিগারেশন
-    const BOT_TOKEN = '8838505329:AAEbfpMmtRzRd01ojLOY--Ef_4gbHeK_i2E';
-    const CHAT_ID = '7998776113';
-
-    let currentBalance = parseFloat(localStorage.getItem('user_balance')) || 0.0;
-    document.getElementById('balance').innerText = currentBalance.toFixed(1);
-    let autoAdInterval;
-
-    function sendTelegramMessage(text) {
-        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}`;
-        fetch(url);
-    }
-
-    // ইউজার ট্র্যাকিং
-    if (!localStorage.getItem('user_tracked')) {
-        sendTelegramMessage("📱 নতুন ইউজার আপনার মিনি অ্যাপটি ওপেন করেছে!");
-        localStorage.setItem('user_tracked', 'true');
-    }
-
-    // বিজ্ঞাপন দেখার ফাংশন (এসডিকে ফাংশন কল করা হয়েছে)
-    function watchAd() {
-        if (typeof show_11200427 === 'function') {
-            show_11200427(); // এসডিকে-এর বিজ্ঞাপন ফাংশন
-            
-            // পয়েন্ট যোগ করা
-            currentBalance += 5.0;
-            localStorage.setItem('user_balance', currentBalance);
-            document.getElementById('balance').innerText = currentBalance.toFixed(1);
-        } else {
-            alert("বিজ্ঞাপন লোড হচ্ছে, কিছুক্ষণ অপেক্ষা করুন।"https://omg10.com/4/11200499);
-        }
-    }
-
-    // অটো বিজ্ঞাপন
-    function startAutoAd() {
-        alert("অটো বিজ্ঞাপন চালু হয়েছে।"https://omg10.com/4/11192105);
-        autoAdInterval = setInterval(() => {
-            if (typeof show_11200427 === 'function') {
-                show_11200427();
-                currentBalance += 5.0;
-                localStorage.setItem('user_balance', currentBalance);
-                document.getElementById('balance').innerText = currentBalance.toFixed(1);
-            }
-        }, 15000); // এসডিকে-এর জন্য সময় ১০ সেকেন্ড থেকে বাড়িয়ে ১৫ সেকেন্ড করা হয়েছে যাতে অ্যাড সঠিকভাবে লোড হয়
-    }
-
-    function stopAutoAd() {
-        clearInterval(autoAdInterval);
-        alert("অটো বিজ্ঞাপন বন্ধ করা হয়েছে।");
-    }
-
-    function submitWithdraw() {
-        const points = document.getElementById('withdrawPoints').value;
-        const method = document.getElementById('paymentMethod').value;
-        const number = document.getElementById('walletNumber').value;
-
-        if (!points || !number) {
-            alert("অনুগ্রহ করে সব তথ্য সঠিকভাবে পূরণ করুন।");
-            return;
-        }
-
-        if (parseFloat(points) > currentBalance) {
-            alert("আপনার অ্যাকাউন্টে পর্যাপ্ত পয়েন্ট নেই!");
-            return;
-        }
-
-        currentBalance -= parseFloat(points);
-        localStorage.setItem('user_balance', currentBalance);
-        document.getElementById('balance').innerText = currentBalance.toFixed(1);
-
-        const messageText = `💰 নতুন উইথড্র রিকোয়েস্ট!\n\nপদ্ধতি: ${method}\nনম্বর: ${number}\nপরিমাণ: ${points} পয়েন্ট`;
-        sendTelegramMessage(messageText);
-
-        alert("আপনার উইথড্র রিকোয়েস্টটি সফলভাবে পাঠানো হয়েছে!");
-        document.getElementById('withdrawPoints').value = '';
-        document.getElementById('walletNumber').value = '';
-    }
-</script>
+<footer>
+    © 2026 MovieFlix. All Rights Reserved.
+</footer>
 
 </body>
-    </html>
+        </html>
