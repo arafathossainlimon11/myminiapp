@@ -3,70 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>টাকা ইনকাম মাস্টার</title>
-    <meta name="monetag" content="f8e2b5b8529b32be6e8c16fc0f5300b7">
+    <title>Professional Earn App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src='//libtl.com/sdk.js' data-zone='11191809' data-sdk='show_11191809'></script>
+    
     <style>
-        body { background-color: #1a1e24; color: #ffffff; font-family: 'Arial', sans-serif; text-align: center; padding: 20px; margin: 0; }
-        .container { max-width: 400px; margin: 0 auto; background: #252b35; padding: 25px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .btn { display: block; width: 100%; padding: 14px; margin: 12px 0; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
-        .btn-green { background-color: #4caf50; color: white; }
-        .btn-blue { background-color: #008cba; color: white; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #444; background: #1a1e24; color: white; box-sizing: border-box; }
-        #appContent { display: none; }
+        /* প্রফেশনাল ডিজাইন */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #1a1a1a; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .card { background: #2d2d2d; padding: 30px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.3); text-align: center; width: 80%; }
+        .balance-box { font-size: 24px; margin-bottom: 20px; color: #00d4ff; }
+        .btn { padding: 15px 25px; width: 100%; border-radius: 10px; border: none; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.3s; margin-top: 10px; }
+        .btn-watch { background: #ff4757; color: white; }
+        .btn-withdraw { background: #2ed573; color: white; }
     </style>
 </head>
 <body>
 
-<div class="container" id="authSection">
-    <h2>স্বাগতম!</h2>
-    <p>অ্যাকাউন্ট ভেরিফাই করতে নিচের তথ্য দিন:</p>
-    <input type="text" id="userName" placeholder="আপনার নাম">
-    <input type="email" id="userEmail" placeholder="ইমেইল বা ফোন নম্বর">
-    <button class="btn btn-green" onclick="registerUser()">সাইন আপ / ভেরিফাই</button>
-</div>
+    <div class="card">
+        <div id="userGreeting">স্বাগতম!</div>
+        <div class="balance-box">পয়েন্ট: <span id="points">0</span></div>
+        <button class="btn btn-watch" onclick="handleAdClick()">বিজ্ঞাপন দেখুন (১০ পয়েন্ট)</button>
+        <button class="btn btn-withdraw" onclick="alert('উইথড্র রিকোয়েস্ট সফল!')">উইথড্র</button>
+    </div>
 
-<div class="container" id="appContent">
-    <h1>৳ আর্ন মাস্টার ৳</h1>
-    <div class="balance-box">আমার পয়েন্ট: <span id="balance">0.0</span></div>
-    <button class="btn btn-green" onclick="watchAd()">বিজ্ঞাপন দেখুন</button>
-    <button class="btn btn-blue" onclick="startAutoAd()">অটো বিজ্ঞাপন</button>
-    <button class="btn btn-red" onclick="stopAutoAd()" style="background-color: #f44336; color:white;">বন্ধ করুন</button>
-</div>
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
 
-<script>
-    // রেজিস্ট্রেশন সিস্টেম
-    function registerUser() {
-        const name = document.getElementById('userName').value;
-        const email = document.getElementById('userEmail').value;
-        if(name && email) {
-            localStorage.setItem('is_registered', 'true');
-            localStorage.setItem('user_name', name);
-            showApp();
-        } else {
-            alert("সব তথ্য পূরণ করুন!");
+        // ইউজার নাম দেখানো
+        if (tg.initDataUnsafe.user) {
+            document.getElementById('userGreeting').innerText = "হ্যালো, " + tg.initDataUnsafe.user.first_name;
         }
-    }
 
-    function showApp() {
-        document.getElementById('authSection').style.display = 'none';
-        document.getElementById('appContent').style.display = 'block';
-    }
-
-    // অ্যাপ লোড হওয়ার সময় চেক করবে ইউজার রেজিস্টার্ড কি না
-    if(localStorage.getItem('is_registered') === 'true') {
-        showApp();
-    }
-
-    // আগের বাকি ফাংশনগুলো এখানে একইভাবে থাকবে (watchAd, startAutoAd, ইত্যাদি)
-    // তোমার আগের দেওয়া কোড থেকে এই অংশগুলো নিচে বসিয়ে নিতে পারবে।
-    
-    // বিজ্ঞাপন নেটওয়ার্কের ডিরেক্ট লিংক এখানে বসাও
-    const AD_LINK = 'https://www.google.com'; 
-
-    function watchAd() {
-        window.open(AD_LINK, '_blank');
-        // পয়েন্ট যোগ করার লজিক এখানে থাকবে
-    }
-</script>
+        let points = 0;
+        function handleAdClick() {
+            if (typeof show_11191809 === 'function') {
+                show_11191809(); // বিজ্ঞাপন দেখাবে
+                points += 10;    // পয়েন্ট বাড়াবে
+                document.getElementById('points').innerText = points;
+            } else {
+                alert("বিজ্ঞাপন লোড হচ্ছে, কিছুক্ষণ অপেক্ষা করুন।");
+            }
+        }
+    </script>
 </body>
 </html>
